@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TodoApp.ViewModels"
+             xmlns:items="clr-namespace:TodoApp.ViewModels.Items"
+             x:Class="TodoApp.Pages.TaskListPage"
+             x:Name="ThisPage"
+             Title="Todo">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="16" RowSpacing="12"
+          x:DataType="vm:TaskListViewModel">
+
+        <CollectionView Grid.Row="0"
+                        ItemsSource="{Binding Filters}"
+                        ItemsLayout="HorizontalList"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="items:FilterStrategyViewModel">
+                    <Button Text="{Binding DisplayName}"
+                            Margin="0,0,8,0"
+                            Padding="12,6"
+                            TextColor="White"
+                            Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SelectFilterCommand}"
+                            CommandParameter="{Binding .}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsSelected}"
+                                         Value="True">
+                                <Setter Property="BackgroundColor" Value="#5B47E5"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsSelected}"
+                                         Value="False">
+                                <Setter Property="BackgroundColor" Value="#B0A4F0"/>
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Lijst -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding VisibleTasks}"
+                        SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
+                        SelectionMode="Single">
+            <CollectionView.EmptyView>
+                <Label Text="Nog geen taken. Klik op 'Nieuw' om er een toe te voegen."
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Margin="0,40,0,0"
+                       Opacity="0.6"/>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="items:TaskItemViewModel">
+                    <Grid Padding="8" ColumnDefinitions="Auto,*">
+
+                        <CheckBox Grid.Column="0"
+                                  IsChecked="{Binding IsDone, Mode=TwoWay}"
+                                  VerticalOptions="Start"/>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="{Binding Title}"
+                                   FontAttributes="Bold"/>
+                            <Label Text="{Binding Description}"
+                                   MaxLines="2"
+                                   LineBreakMode="TailTruncation"
+                                   FontSize="12"
+                                   Opacity="0.7"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- 'Personen' + 'Nieuw' -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="12">
+            <Button Grid.Column="0"
+                    Text="Personen"
+                    Command="{Binding GoToPersonsCommand}"/>
+            <Button Grid.Column="1"
+                    Text="Nieuw"
+                    Command="{Binding NewTaskCommand}"/>
+        </Grid>
+    </Grid>
+</ContentPage>

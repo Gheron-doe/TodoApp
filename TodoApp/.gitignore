@@ -1,0 +1,25 @@
+## .NET / MAUI build output
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+
+## Visual Studio
+.vs/
+.vscode/
+
+## Rider / JetBrains
+.idea/
+*.DotSettings.user
+
+## OS
+.DS_Store
+Thumbs.db
+
+## LiteDB local database
+*.db
+*.db-log
+
+## Logs
+*.log

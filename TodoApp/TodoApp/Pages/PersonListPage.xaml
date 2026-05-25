@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TodoApp.ViewModels"
+             xmlns:items="clr-namespace:TodoApp.ViewModels.Items"
+             x:Class="TodoApp.Pages.PersonListPage"
+             x:DataType="vm:PersonListViewModel"
+             Title="Personen">
+
+    <Grid RowDefinitions="*,Auto" Padding="16" RowSpacing="12">
+
+        <CollectionView Grid.Row="0"
+                        ItemsSource="{Binding Persons}"
+                        SelectedItem="{Binding SelectedPerson, Mode=TwoWay}"
+                        SelectionMode="Single">
+
+            <CollectionView.EmptyView>
+                <Label Text="Nog geen personen. Klik op 'Nieuw' om er een toe te voegen."
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Opacity="0.6"/>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="items:PersonItemViewModel">
+                    <Grid Padding="8" ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label Text="{Binding FirstName}" FontAttributes="Bold"/>
+                            <Label Text="{Binding LastName}" FontSize="12" Opacity="0.7"/>
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1"
+                               Text="{Binding Age, StringFormat='{0} jaar'}"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="1"
+                Text="Nieuw"
+                Command="{Binding NewPersonCommand}"/>
+    </Grid>
+</ContentPage>

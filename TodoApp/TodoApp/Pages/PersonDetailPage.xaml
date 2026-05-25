@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TodoApp.ViewModels"
+             x:Class="TodoApp.Pages.PersonDetailPage"
+             x:DataType="vm:PersonDetailViewModel"
+             Title="{Binding PageTitle}">
+
+    <Grid RowDefinitions="*,Auto" Padding="16" RowSpacing="12">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="12">
+                
+                <Label Text="FOTO (URL)" FontSize="11" TextColor="DarkGreen"/>
+                <Image Source="{Binding PhotoUrl}"
+                       HeightRequest="120"
+                       Aspect="AspectFit"
+                       HorizontalOptions="Center"/>
+                <Entry Text="{Binding PhotoUrl, Mode=TwoWay}" Placeholder="https://..."/>
+                
+                <Label Text="VOORNAAM" FontSize="11" TextColor="DarkGreen"/>
+                <Entry Text="{Binding FirstName, Mode=TwoWay}" Placeholder="Voornaam"/>
+
+                <Label Text="FAMILIENAAM" FontSize="11" TextColor="DarkGreen"/>
+                <Entry Text="{Binding LastName, Mode=TwoWay}" Placeholder="Familienaam"/>
+
+                <Label Text="GEBOORTEDATUM" FontSize="11" TextColor="DarkGreen"/>
+                <DatePicker Date="{Binding BirthDate, Mode=TwoWay}"/>
+
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*" ColumnSpacing="8">
+            <Button Grid.Column="0"
+                    Text="Annuleren"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    Command="{Binding CancelCommand}"/>
+            <Button Grid.Column="1"
+                    Text="Bewaren"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    Command="{Binding SaveCommand}"/>
+            <Button Grid.Column="2"
+                    Text="Verwijder"
+                    BackgroundColor="Purple"
+                    TextColor="White"
+                    IsVisible="{Binding CanDelete}"
+                    Command="{Binding DeleteCommand}"/>
+        </Grid>
+    </Grid>
+</ContentPage>
